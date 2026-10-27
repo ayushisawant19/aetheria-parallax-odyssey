@@ -1,0 +1,1353 @@
+/* ==========================================================================
+   AETHERIA: The Vertical Odyssey - Parallax Styling
+   ========================================================================== */
+
+/* --- Custom CSS Variables & Theming --- */
+:root {
+  /* Fonts */
+  --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: 'Cinzel', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Dawn Valley Palette */
+  --dawn-sky-top: #1A102F;
+  --dawn-sky-mid: #5E3259;
+  --dawn-sky-horizon: #FF9A76;
+  --dawn-sun: #FFD166;
+  --dawn-accent: #FF7B54;
+
+  /* Alpine Ridge Palette */
+  --ridge-sky-top: #0E1626;
+  --ridge-sky-mid: #1E293B;
+  --ridge-sky-horizon: #38BDF8;
+  --ridge-accent: #00F2FE;
+
+  /* Cloud Realm Palette */
+  --cloud-sky-top: #2D132C;
+  --cloud-sky-mid: #801336;
+  --cloud-sky-horizon: #EE4540;
+  --cloud-gold: #F59E0B;
+
+  /* Aurora Stratosphere Palette */
+  --strato-sky-top: #030712;
+  --strato-sky-mid: #0B192C;
+  --strato-aurora-green: #10B981;
+  --strato-aurora-cyan: #06B6D4;
+  --strato-aurora-magenta: #D946EF;
+
+  /* Celestial Cosmos Palette */
+  --cosmos-deep-bg: #030712;
+  --cosmos-nebula-purple: #7C3AED;
+  --cosmos-nebula-cyan: #0284C7;
+  --cosmos-starlight: #F8FAFC;
+
+  /* UI Tokens */
+  --glass-bg: rgba(15, 23, 42, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-glow: rgba(56, 189, 248, 0.25);
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --radius-pill: 9999px;
+
+  /* Global Sky Gradient (Updated dynamically by JS on scroll) */
+  --active-sky-1: #1A102F;
+  --active-sky-2: #3E1E47;
+  --active-sky-3: #FF9A76;
+}
+
+/* --- Reset & Global Baseline --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--cosmos-deep-bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--active-sky-1) 0%, var(--active-sky-2) 50%, var(--active-sky-3) 100%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  overflow-x: hidden;
+  transition: background 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Skip link for keyboard accessibility */
+.skip-link {
+  position: absolute;
+  top: -60px;
+  left: 20px;
+  background: #38BDF8;
+  color: #0F172A;
+  padding: 12px 20px;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  z-index: 99999;
+  transition: top 0.2s ease;
+  text-decoration: none;
+}
+.skip-link:focus {
+  top: 20px;
+}
+
+/* Ambient Canvas */
+#ambient-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ==========================================================================
+   HEADER & PROGRESS BAR
+   ========================================================================== */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(8, 12, 22, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--glass-border);
+  transition: all 0.3s ease;
+}
+
+.header-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.brand-symbol {
+  font-size: 1.4rem;
+  color: #38BDF8;
+  animation: pulse-glow 3s infinite ease-in-out;
+}
+
+.brand-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  background: linear-gradient(135deg, #FFFFFF, #94A3B8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.brand-sub {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 3px 7px;
+  background: rgba(56, 189, 248, 0.15);
+  color: #38BDF8;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  letter-spacing: 0.08em;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-item {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  transition: all 0.25s ease;
+  border: 1px solid transparent;
+}
+
+.nav-item:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-item.active {
+  color: #38BDF8;
+  background: rgba(56, 189, 248, 0.12);
+  border-color: rgba(56, 189, 248, 0.35);
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.control-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+
+.control-btn:hover {
+  background: rgba(56, 189, 248, 0.18);
+  border-color: #38BDF8;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.3);
+}
+
+.control-btn strong {
+  color: #38BDF8;
+}
+
+.cta-quick-btn {
+  background: linear-gradient(135deg, #0284C7, #38BDF8);
+  color: #030712;
+  font-weight: 700;
+  border: none;
+}
+
+.cta-quick-btn:hover {
+  background: linear-gradient(135deg, #38BDF8, #7DD3FC);
+  color: #030712;
+}
+
+/* Progress Fill Bar */
+.scroll-progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #FF7B54, #38BDF8, #A855F7, #EC4899);
+  transition: width 0.08s linear;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
+}
+
+/* ==========================================================================
+   TELEMETRY HUD & WAYPOINT NAV
+   ========================================================================== */
+.telemetry-hud {
+  position: fixed;
+  bottom: 28px;
+  left: 28px;
+  z-index: 100;
+  background: var(--glass-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  font-family: var(--font-mono);
+  pointer-events: none;
+  min-width: 240px;
+}
+
+.hud-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 6px;
+}
+
+.hud-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 8px #10B981;
+  animation: pulse-dot 1.5s infinite;
+}
+
+.hud-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+}
+
+.hud-metric {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-title {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+.metric-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #38BDF8;
+}
+
+/* Side Waypoints */
+.waypoint-nav {
+  position: fixed;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.waypoint-dot {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: rgba(15, 23, 42, 0.8);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.waypoint-dot:hover, .waypoint-dot.active {
+  background: #38BDF8;
+  border-color: #38BDF8;
+  box-shadow: 0 0 14px #38BDF8;
+  transform: scale(1.3);
+}
+
+.dot-label {
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%) translateX(10px);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-primary);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+
+.waypoint-dot:hover .dot-label {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* ==========================================================================
+   PARALLAX ENGINE CORE
+   ========================================================================== */
+.parallax-container {
+  position: relative;
+  width: 100%;
+}
+
+.parallax-section {
+  position: relative;
+  min-height: 120vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 120px 24px;
+}
+
+/* Hardware accelerated parallax layers */
+.p-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+/* Depth layering z-indexes */
+.layer-bg { z-index: 1; }
+.layer-mid-bg { z-index: 2; }
+.layer-mid-fg { z-index: 3; }
+.layer-fg { z-index: 4; }
+.layer-floating { z-index: 5; }
+
+/* Story Cards */
+.story-card {
+  position: relative;
+  z-index: 20;
+  max-width: 680px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 44px 48px;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55), 0 0 40px rgba(56, 189, 248, 0.08);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.story-card:hover {
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.65), 0 0 50px rgba(56, 189, 248, 0.16);
+}
+
+.badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #38BDF8;
+  margin-bottom: 20px;
+}
+
+.badge-icon {
+  font-size: 0.8rem;
+}
+
+.hero-title, .card-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #FF9A76, #FFD166, #FF7B54);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-sky {
+  background: linear-gradient(135deg, #38BDF8, #818CF8, #C084FC);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-gold {
+  background: linear-gradient(135deg, #FDE047, #F59E0B, #FB923C);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-cosmos {
+  background: linear-gradient(135deg, #A855F7, #EC4899, #38BDF8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-lead, .card-copy {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+}
+
+/* Button UI */
+.hero-cta-group, .terminal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #38BDF8, #0284C7);
+  color: #030712;
+  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.35);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(56, 189, 248, 0.5);
+  background: linear-gradient(135deg, #7DD3FC, #38BDF8);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--glass-border);
+  color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #38BDF8;
+  transform: translateY(-2px);
+}
+
+/* Scroll Cue */
+.scroll-cue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 36px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+}
+
+.cue-chevron {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.cue-chevron span {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-bottom: 2px solid #38BDF8;
+  border-right: 2px solid #38BDF8;
+  transform: rotate(45deg);
+  animation: chevron-fade 1.8s infinite;
+}
+
+.cue-chevron span:nth-child(2) { animation-delay: 0.2s; }
+.cue-chevron span:nth-child(3) { animation-delay: 0.4s; }
+
+/* ==========================================================================
+   SECTION 1: THE VALLEY OF DAWN
+   ========================================================================== */
+.section-hero {
+  min-height: 130vh;
+}
+
+.dawn-sun-container {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 240px;
+  height: 240px;
+}
+
+.dawn-sun-glow {
+  position: absolute;
+  inset: -60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 123, 84, 0.4) 0%, rgba(255, 209, 102, 0.2) 40%, transparent 70%);
+  filter: blur(30px);
+}
+
+.dawn-sun-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 35px rgba(255, 209, 102, 0.6));
+}
+
+.distant-mountains-svg, .mid-mountains-svg, .alpine-ridge-svg, .foreground-pines-svg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.distant-mountains-svg { height: 60%; }
+.mid-mountains-svg { height: 65%; }
+.alpine-ridge-svg { height: 50%; }
+.foreground-pines-svg { height: 40%; }
+
+.floating-seed {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #FFD166;
+  box-shadow: 0 0 12px #FFD166;
+  animation: seed-drift 6s infinite ease-in-out alternate;
+}
+
+.seed-2 { animation-duration: 8s; animation-delay: 1.5s; width: 6px; height: 6px; }
+.seed-3 { animation-duration: 7s; animation-delay: 3s; width: 10px; height: 10px; }
+.seed-4 { animation-duration: 9s; animation-delay: 0.8s; }
+
+.soaring-birds {
+  position: absolute;
+  width: 120px;
+  animation: bird-flight 14s infinite linear;
+}
+
+/* ==========================================================================
+   SECTION 2: THE WHISPERING RIDGE
+   ========================================================================== */
+.section-ridge {
+  min-height: 130vh;
+}
+
+.ridge-sky-gradient {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.15) 0%, transparent 60%);
+}
+
+.snow-spires-svg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70%;
+}
+
+.mountain-crags-svg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70%;
+}
+
+.aerolith {
+  position: absolute;
+  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.6));
+  animation: aerolith-float 5s infinite ease-in-out alternate;
+}
+
+.aerolith-right {
+  animation-duration: 7s;
+  animation-delay: 1.2s;
+}
+
+.soaring-eagle {
+  position: absolute;
+  top: 25%;
+  left: 20%;
+  animation: eagle-glide 12s infinite ease-in-out;
+}
+
+.ridge-stats-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.stat-pill {
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--glass-border);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+.stat-pill strong {
+  color: #38BDF8;
+}
+
+/* ==========================================================================
+   SECTION 3: THE SEA OF CLOUDS & AEROSTAT
+   ========================================================================== */
+.section-clouds {
+  min-height: 130vh;
+}
+
+.golden-hour-sun {
+  position: absolute;
+  top: 10%;
+  right: 15%;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #FDE047 0%, #F59E0B 40%, rgba(245, 158, 11, 0) 75%);
+  filter: blur(25px);
+}
+
+.deep-cumulus-svg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60%;
+}
+
+.fore-cloud-svg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 45%;
+}
+
+.aerostat-ship {
+  position: absolute;
+  top: 20%;
+  left: 12%;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.6));
+  animation: ship-bob 6s infinite ease-in-out alternate;
+  transform-origin: center;
+}
+
+.aerostat-propeller {
+  animation: prop-spin 0.4s infinite linear;
+}
+
+.paper-airplane {
+  position: absolute;
+  top: 35%;
+  right: 18%;
+  animation: plane-swoop 9s infinite ease-in-out;
+}
+
+.cloud-interactive-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: #FDE047;
+  font-family: var(--font-mono);
+  background: rgba(253, 224, 71, 0.1);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(253, 224, 71, 0.25);
+}
+
+/* ==========================================================================
+   SECTION 4: THE AURORA STRATOSPHERE (PINNED HORIZONTAL)
+   ========================================================================== */
+.section-stratosphere {
+  min-height: 100vh;
+  padding: 0;
+  overflow: hidden;
+}
+
+.horizontal-pinned-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #020813;
+}
+
+.strato-deep-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.earth-curvature-svg {
+  position: absolute;
+  bottom: -150px;
+  left: 0;
+  width: 100%;
+  height: 80%;
+}
+
+/* Shimmering Aurora curtains */
+.aurora-curtain-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.aurora-wave {
+  position: absolute;
+  width: 160%;
+  height: 50%;
+  top: 5%;
+  left: -30%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(16, 185, 129, 0.35) 0%, rgba(6, 182, 212, 0.25) 40%, rgba(217, 70, 239, 0.15) 70%, transparent 100%);
+  filter: blur(40px);
+  transform-origin: center;
+  animation: aurora-undulate 8s infinite ease-in-out alternate;
+}
+
+.wave-2 {
+  top: 15%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(6, 182, 212, 0.3) 0%, rgba(168, 85, 247, 0.25) 50%, transparent 100%);
+  animation-duration: 11s;
+  animation-delay: -3s;
+}
+
+.wave-3 {
+  top: 25%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(16, 185, 129, 0.25) 0%, rgba(244, 63, 94, 0.18) 50%, transparent 100%);
+  animation-duration: 14s;
+  animation-delay: -6s;
+}
+
+/* Horizontal track container */
+.horizontal-track {
+  display: flex;
+  width: 300vw;
+  height: 100vh;
+  position: relative;
+  z-index: 10;
+  will-change: transform;
+}
+
+.horizontal-panel {
+  width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 8%;
+  position: relative;
+}
+
+.panel-card {
+  max-width: 580px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  z-index: 20;
+}
+
+.panel-heading {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #FFFFFF, #38BDF8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.panel-copy {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.telemetry-badge {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #38BDF8;
+}
+
+.telemetry-badge span {
+  padding: 4px 10px;
+  background: rgba(56, 189, 248, 0.1);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.strato-object {
+  position: absolute;
+  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.8));
+}
+
+.probe-object {
+  right: 15%;
+  top: 30%;
+  animation: probe-hover 5s infinite ease-in-out alternate;
+}
+
+.satellite-object {
+  right: 12%;
+  top: 25%;
+  animation: sat-rotate 16s infinite ease-in-out alternate;
+}
+
+.meteor-streak-group {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.meteor-streak {
+  position: absolute;
+  width: 180px;
+  height: 2px;
+  background: linear-gradient(90deg, #FFFFFF, #38BDF8, transparent);
+  transform: rotate(-35deg);
+  opacity: 0.7;
+  animation: meteor-shoot 4s infinite linear;
+}
+
+.m-1 { top: 20%; right: 25%; animation-delay: 0.5s; }
+.m-2 { top: 45%; right: 15%; animation-delay: 2.2s; width: 240px; }
+.m-3 { top: 65%; right: 35%; animation-delay: 3.4s; }
+
+.horizontal-scroll-hint {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid var(--glass-border);
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: #38BDF8;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.hint-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #38BDF8;
+  box-shadow: 0 0 10px #38BDF8;
+  animation: pulse-dot 1.2s infinite;
+}
+
+/* ==========================================================================
+   SECTION 5: THE CELESTIAL TERMINUS & COSMOS
+   ========================================================================== */
+.section-cosmos {
+  min-height: 140vh;
+}
+
+.deep-space-nebula {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 75% 30%, rgba(124, 58, 237, 0.25) 0%, transparent 50%),
+              radial-gradient(circle at 25% 70%, rgba(2, 132, 199, 0.2) 0%, transparent 60%);
+}
+
+.starfield-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.lunar-orb-wrapper {
+  position: absolute;
+  top: 12%;
+  right: 15%;
+  width: 320px;
+  height: 320px;
+}
+
+.moon-atmospheric-halo {
+  position: absolute;
+  inset: -30px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(226, 232, 240, 0.3) 0%, rgba(56, 189, 248, 0.15) 45%, transparent 70%);
+  filter: blur(25px);
+}
+
+.moon-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 40px rgba(248, 250, 252, 0.45));
+}
+
+.spacewalk-astronaut {
+  position: absolute;
+  top: 25%;
+  left: 14%;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.7));
+  animation: astro-float 7s infinite ease-in-out alternate;
+}
+
+/* Mission Terminal Card */
+.cosmos-content {
+  max-width: 840px;
+}
+
+.mission-terminal {
+  background: #080D1A;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: var(--radius-md);
+  margin-bottom: 32px;
+  overflow: hidden;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+}
+
+.terminal-header {
+  background: #0F172A;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.terminal-dot.red { background: #EF4444; }
+.terminal-dot.yellow { background: #F59E0B; }
+.terminal-dot.green { background: #10B981; }
+
+.terminal-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-left: 8px;
+}
+
+.terminal-body {
+  padding: 24px;
+}
+
+.terminal-output {
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  line-height: 1.8;
+  color: #38BDF8;
+  margin-bottom: 24px;
+}
+
+/* Technical Specs Grid */
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.spec-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.spec-val {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #F8FAFC;
+}
+
+.spec-lbl {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 24px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Dispatch Toast */
+.dispatch-toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9999;
+  background: #0F172A;
+  border: 1px solid #38BDF8;
+  border-radius: var(--radius-md);
+  padding: 18px 24px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(56, 189, 248, 0.4);
+  animation: toast-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.toast-icon {
+  font-size: 1.8rem;
+}
+
+.toast-content strong {
+  display: block;
+  color: #38BDF8;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  margin-bottom: 2px;
+}
+
+.toast-content p {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   ANIMATION KEYFRAMES
+   ========================================================================== */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); filter: drop-shadow(0 0 8px #38BDF8); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+@keyframes chevron-fade {
+  0% { opacity: 0; transform: rotate(45deg) translate(-4px, -4px); }
+  50% { opacity: 1; }
+  100% { opacity: 0; transform: rotate(45deg) translate(4px, 4px); }
+}
+
+@keyframes seed-drift {
+  0% { transform: translateY(0px) translateX(0px); }
+  100% { transform: translateY(-30px) translateX(20px); }
+}
+
+@keyframes bird-flight {
+  0% { transform: translate(-100px, 40px) scale(0.8); }
+  50% { transform: translate(150px, -20px) scale(1); }
+  100% { transform: translate(400px, 30px) scale(0.9); }
+}
+
+@keyframes aerolith-float {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-24px) rotate(4deg); }
+}
+
+@keyframes eagle-glide {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(140px, -35px) scale(1.08); }
+  100% { transform: translate(280px, 10px) scale(0.95); }
+}
+
+@keyframes ship-bob {
+  0% { transform: translateY(0) rotate(-1.5deg); }
+  100% { transform: translateY(-26px) rotate(1.5deg); }
+}
+
+@keyframes prop-spin {
+  0% { transform: scaleY(1); }
+  50% { transform: scaleY(0.1); }
+  100% { transform: scaleY(1); }
+}
+
+@keyframes plane-swoop {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-80px, -40px) rotate(-10deg); }
+  100% { transform: translate(-180px, 20px) rotate(5deg); }
+}
+
+@keyframes aurora-undulate {
+  0% { transform: scale(1) translateY(0) skewX(0deg); }
+  50% { transform: scale(1.15) translateY(-20px) skewX(6deg); }
+  100% { transform: scale(1.05) translateY(10px) skewX(-4deg); }
+}
+
+@keyframes probe-hover {
+  0% { transform: translateY(0) rotate(-3deg); }
+  100% { transform: translateY(-30px) rotate(5deg); }
+}
+
+@keyframes sat-rotate {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(6deg); }
+  100% { transform: translateY(15px) rotate(-4deg); }
+}
+
+@keyframes meteor-shoot {
+  0% { opacity: 0; transform: translate(0, 0) rotate(-35deg); }
+  10% { opacity: 1; }
+  25% { opacity: 0; transform: translate(-300px, 200px) rotate(-35deg); }
+  100% { opacity: 0; transform: translate(-300px, 200px) rotate(-35deg); }
+}
+
+@keyframes astro-float {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-35px) rotate(5deg); }
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Twinkle animations */
+.twinkle-slow { animation: twinkle 3s infinite ease-in-out; }
+.twinkle-mid { animation: twinkle 2s infinite ease-in-out 0.7s; }
+.twinkle-fast { animation: twinkle 1.2s infinite ease-in-out 1.4s; }
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (DESKTOP / TABLET / MOBILE)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .nav-links { display: none; }
+  .telemetry-hud { min-width: 200px; padding: 10px 14px; bottom: 20px; left: 20px; }
+  .waypoint-nav { right: 16px; }
+  .specs-grid { grid-template-columns: repeat(2, 1fr); }
+  .aerostat-ship { width: 300px; height: 210px; }
+  .lunar-orb-wrapper { width: 240px; height: 240px; right: 8%; }
+  .spacewalk-astronaut { width: 130px; height: 190px; }
+}
+
+@media (max-width: 768px) {
+  .parallax-section {
+    padding: 90px 18px;
+    min-height: 100vh;
+  }
+  .story-card {
+    padding: 30px 24px;
+    border-radius: var(--radius-md);
+  }
+  .hero-title, .card-title {
+    font-size: 2.2rem;
+  }
+  .hero-lead, .card-copy {
+    font-size: 1rem;
+    margin-bottom: 24px;
+  }
+  .telemetry-hud {
+    display: none; /* Hide dense HUD on small mobile screens */
+  }
+  .waypoint-nav {
+    display: none;
+  }
+  .specs-grid {
+    grid-template-columns: 1fr;
+  }
+  .aerolith-left, .aerolith-right {
+    display: none;
+  }
+  .aerostat-ship {
+    position: relative;
+    top: auto;
+    left: auto;
+    margin: 0 auto 20px auto;
+    width: 240px;
+    height: 170px;
+    display: block;
+  }
+  .lunar-orb-wrapper {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin: 0 auto 20px auto;
+    width: 180px;
+    height: 180px;
+    display: block;
+  }
+  .spacewalk-astronaut {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   PREFERS-REDUCED-MOTION (ACCESSIBILITY COMPLIANCE)
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .p-layer {
+    transform: none !important;
+    will-change: auto !important;
+  }
+  .horizontal-track {
+    transform: none !important;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+  }
+  .horizontal-panel {
+    width: 100%;
+    height: auto;
+    padding: 60px 20px;
+  }
+  .horizontal-pinned-wrapper {
+    height: auto;
+    overflow: visible;
+  }
+}

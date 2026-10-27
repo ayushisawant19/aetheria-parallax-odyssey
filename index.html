@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AETHERIA: An immersive multi-layered parallax journey from a misty dawn valley to the cosmic infinite.">
+  <title>AETHERIA // The Vertical Odyssey: Dawn to Cosmos</title>
+
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- GSAP & ScrollTrigger CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <!-- Main Script -->
+  <script src="script.js" defer></script>
+</head>
+<body class="theme-dawn">
+
+  <!-- Accessibility Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Global Canvas for ambient dust, fireflies, cosmic meteors -->
+  <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+
+  <!-- Top Sticky Navigation & Telemetry Progress -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <div class="brand">
+        <a href="#hero" class="brand-link" aria-label="AETHERIA Home">
+          <span class="brand-symbol">◈</span>
+          <span class="brand-title">AETHERIA</span>
+          <span class="brand-sub">EXPEDITION 01</span>
+        </a>
+      </div>
+
+      <nav class="nav-links" aria-label="Expedition Waypoints">
+        <a href="#hero" class="nav-item active" data-target="hero">0m Valley</a>
+        <a href="#ridge" class="nav-item" data-target="ridge">3.2km Ridge</a>
+        <a href="#clouds" class="nav-item" data-target="clouds">9.5km Clouds</a>
+        <a href="#stratosphere" class="nav-item" data-target="stratosphere">48km Aurora</a>
+        <a href="#cosmos" class="nav-item" data-target="cosmos">384km Cosmos</a>
+      </nav>
+
+      <div class="header-controls">
+        <button id="audio-toggle" class="control-btn" aria-label="Toggle celestial ambient synth audio" title="Celestial Audio Ambient">
+          <span class="btn-icon">♪</span>
+          <span class="btn-text">Audio: <strong id="audio-status">OFF</strong></span>
+        </button>
+        <a href="#cosmos" class="control-btn cta-quick-btn">Mission CTA</a>
+      </div>
+    </div>
+
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Ascent Progress">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </header>
+
+  <!-- Realtime Telemetry HUD (Fixed Bottom-Left) -->
+  <aside class="telemetry-hud" aria-label="Real-time Flight Telemetry">
+    <div class="hud-header">
+      <span class="hud-status-dot"></span>
+      <span class="hud-label">TELEMETRY LINK // ACTIVE</span>
+    </div>
+    <div class="hud-metrics">
+      <div class="hud-metric">
+        <span class="metric-title">ALTITUDE</span>
+        <span class="metric-value" id="hud-altitude">0 m</span>
+      </div>
+      <div class="hud-metric">
+        <span class="metric-title">ATMOSPHERE</span>
+        <span class="metric-value" id="hud-stage">TROPOSPHERE</span>
+      </div>
+      <div class="hud-metric">
+        <span class="metric-title">VELOCITY</span>
+        <span class="metric-value" id="hud-velocity">0.0 km/h</span>
+      </div>
+      <div class="hud-metric">
+        <span class="metric-title">OXYGEN</span>
+        <span class="metric-value" id="hud-oxygen">20.9%</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Side Waypoint Dot Navigator -->
+  <nav class="waypoint-nav" aria-label="Altitude Navigation Waypoints">
+    <button class="waypoint-dot active" data-target="hero" aria-label="Jump to Dawn Valley (0m)"><span class="dot-label">0m Dawn</span></button>
+    <button class="waypoint-dot" data-target="ridge" aria-label="Jump to Whispering Ridge (3,200m)"><span class="dot-label">3.2k Ridge</span></button>
+    <button class="waypoint-dot" data-target="clouds" aria-label="Jump to Sea of Clouds (9,500m)"><span class="dot-label">9.5k Clouds</span></button>
+    <button class="waypoint-dot" data-target="stratosphere" aria-label="Jump to Aurora Stratosphere (48,000m)"><span class="dot-label">48k Aurora</span></button>
+    <button class="waypoint-dot" data-target="cosmos" aria-label="Jump to The Lunar Expanse (384,400m)"><span class="dot-label">384k Cosmos</span></button>
+  </nav>
+
+  <!-- MAIN SCROLL CONTAINER -->
+  <main id="main-content" class="parallax-container">
+
+    <!-- ================================================================= -->
+    <!-- SECTION 1: HERO - THE VALLEY OF DAWN (0m) -->
+    <!-- ================================================================= -->
+    <section id="hero" class="parallax-section section-hero" aria-label="The Valley of Dawn at Altitude Zero">
+      
+      <!-- Layer 1: Far Sky Background & Dawn Sun -->
+      <div class="p-layer layer-bg" data-speed="0.15" aria-hidden="true">
+        <div class="dawn-sun-container">
+          <div class="dawn-sun-glow"></div>
+          <svg class="dawn-sun-svg" viewBox="0 0 200 200" fill="none">
+            <circle cx="100" cy="100" r="70" fill="url(#sun-gradient)"/>
+            <defs>
+              <radialGradient id="sun-gradient" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(100 100) scale(70)">
+                <stop stop-color="#FFF5E4"/>
+                <stop offset="0.4" stop-color="#FFD166"/>
+                <stop offset="0.8" stop-color="#FF7B54"/>
+                <stop offset="1" stop-color="#FF5D9E" stop-opacity="0.8"/>
+              </radialGradient>
+            </defs>
+          </svg>
+        </div>
+        <!-- Distant misty alpine silhouettes -->
+        <svg class="distant-mountains-svg" viewBox="0 0 1920 600" preserveAspectRatio="none">
+          <path d="M0,450 L120,380 L350,480 L580,310 L790,420 L1050,260 L1280,410 L1520,330 L1740,420 L1920,360 L1920,600 L0,600 Z" fill="url(#dist-mount-grad)" opacity="0.6"/>
+          <defs>
+            <linearGradient id="dist-mount-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#845EC2" stop-opacity="0.8"/>
+              <stop offset="100%" stop-color="#D65DB1" stop-opacity="0.4"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <!-- Layer 2: Mid Background - Layered Rolling Mountains -->
+      <div class="p-layer layer-mid-bg" data-speed="0.3" aria-hidden="true">
+        <svg class="mid-mountains-svg" viewBox="0 0 1920 650" preserveAspectRatio="none">
+          <path d="M0,400 L210,290 L440,380 L690,220 L940,360 L1180,240 L1450,370 L1710,270 L1920,380 L1920,650 L0,650 Z" fill="url(#mid-mount-grad)"/>
+          <path d="M0,490 L300,380 L520,440 L780,340 L1080,430 L1340,320 L1600,420 L1920,340 L1920,650 L0,650 Z" fill="#2C234D" opacity="0.7"/>
+          <defs>
+            <linearGradient id="mid-mount-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#4B4453"/>
+              <stop offset="100%" stop-color="#241E38"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <!-- Layer 3: Mid Foreground - Alpine Forest Ridge & Misty Lake -->
+      <div class="p-layer layer-mid-fg" data-speed="0.55" aria-hidden="true">
+        <svg class="alpine-ridge-svg" viewBox="0 0 1920 500" preserveAspectRatio="none">
+          <!-- Ridge with stylized conifers -->
+          <path d="M0,320 
+            C 150,300 240,270 380,290 
+            C 520,310 640,260 800,280 
+            C 960,300 1100,250 1280,270 
+            C 1460,290 1620,240 1780,260 
+            C 1850,270 1900,280 1920,290 
+            L 1920,500 L 0,500 Z" fill="#1C182B"/>
+          <!-- Vector Pine Tree Silhouettes along the ridge -->
+          <g fill="#171324">
+            <polygon points="120,310 135,260 150,310"/>
+            <polygon points="140,315 152,240 164,315"/>
+            <polygon points="158,320 170,270 182,320"/>
+            <polygon points="320,295 335,230 350,295"/>
+            <polygon points="342,300 355,250 368,300"/>
+            <polygon points="540,285 558,215 576,285"/>
+            <polygon points="568,290 582,245 596,290"/>
+            <polygon points="760,285 776,220 792,285"/>
+            <polygon points="1020,275 1038,205 1056,275"/>
+            <polygon points="1048,280 1062,235 1076,280"/>
+            <polygon points="1240,275 1256,210 1272,275"/>
+            <polygon points="1480,280 1498,225 1516,280"/>
+            <polygon points="1660,265 1678,195 1696,265"/>
+            <polygon points="1688,270 1704,225 1720,270"/>
+          </g>
+          <!-- Misty lake shimmer at bottom -->
+          <rect x="0" y="440" width="1920" height="60" fill="url(#lake-sheen)" opacity="0.65"/>
+          <defs>
+            <linearGradient id="lake-sheen" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#FF9A76" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#171324"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <!-- Layer 4: Near Foreground - Pine Boughs, Grass, & Wildflower Silhouettes -->
+      <div class="p-layer layer-fg" data-speed="0.85" aria-hidden="true">
+        <svg class="foreground-pines-svg" viewBox="0 0 1920 400" preserveAspectRatio="none">
+          <!-- Left framing pine -->
+          <path d="M-40,400 L-20,180 L20,180 L40,110 L90,200 L130,130 L170,220 L210,160 L240,250 L280,200 L320,300 L350,400 Z" fill="#0C0A14"/>
+          <!-- Right framing pine -->
+          <path d="M1960,400 L1940,160 L1900,160 L1870,90 L1820,180 L1780,120 L1740,200 L1700,150 L1660,240 L1630,190 L1590,310 L1560,400 Z" fill="#0C0A14"/>
+          <!-- Bottom wild grass silhouettes -->
+          <path d="M0,400 Q 150,360 300,400 T 600,400 T 900,390 T 1200,400 T 1500,385 T 1800,400 T 1920,390 L 1920,400 Z" fill="#08070D"/>
+        </svg>
+      </div>
+
+      <!-- Layer 5: Floating Elements (Fireflies / Spores / Birds) -->
+      <div class="p-layer layer-floating" data-speed="1.2" aria-hidden="true">
+        <div class="floating-seed seed-1" style="left: 18%; top: 38%;"></div>
+        <div class="floating-seed seed-2" style="left: 42%; top: 25%;"></div>
+        <div class="floating-seed seed-3" style="left: 78%; top: 32%;"></div>
+        <div class="floating-seed seed-4" style="left: 64%; top: 48%;"></div>
+        <!-- Distant flying birds -->
+        <svg class="soaring-birds" viewBox="0 0 200 80" style="left: 58%; top: 22%;">
+          <path d="M10,25 Q 25,10 40,25 Q 55,10 70,25" stroke="#4A3B69" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M90,40 Q 102,28 114,40 Q 126,28 138,40" stroke="#4A3B69" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M150,20 Q 160,10 170,20 Q 180,10 190,20" stroke="#4A3B69" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <!-- Hero Content Card (Front Center) -->
+      <div class="hero-content story-card card-reveal">
+        <div class="badge-tag">
+          <span class="badge-icon">◉</span>
+          <span>ALTITUDE: 0 METERS // BASECAMP DAWN</span>
+        </div>
+        <h1 class="hero-title">
+          Keep your feet on the ground.<br>
+          <span class="gradient-text">Or don't.</span>
+        </h1>
+        <p class="hero-lead">
+          At dawn, the morning mist curls over emerald valleys and crystal water. Gravity is merely a polite suggestion here. Scroll downward to ascend upward into the infinite celestial expanse.
+        </p>
+        <div class="hero-cta-group">
+          <a href="#ridge" class="btn btn-primary" id="begin-ascent-btn">
+            <span>Begin Ascent</span>
+            <span class="btn-arrow">↓</span>
+          </a>
+          <button class="btn btn-secondary" id="preview-flight-btn">
+            <span>Soundscape Preview</span>
+            <span class="btn-sparkle">✨</span>
+          </button>
+        </div>
+        <div class="scroll-cue" aria-hidden="true">
+          <span class="cue-text">SCROLL TO DEFY GRAVITY</span>
+          <div class="cue-chevron">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- SECTION 2: THE WHISPERING RIDGE (3,200m) -->
+    <!-- ================================================================= -->
+    <section id="ridge" class="parallax-section section-ridge" aria-label="The Whispering Ridge at Altitude 3,200 Meters">
+      
+      <!-- Layer 1: Highland Morning Sky -->
+      <div class="p-layer layer-bg" data-speed="0.2" aria-hidden="true">
+        <div class="ridge-sky-gradient"></div>
+        <svg class="ridge-thermal-svg" viewBox="0 0 1920 800" preserveAspectRatio="none">
+          <circle cx="1500" cy="200" r="300" fill="#FFEAA7" opacity="0.15" filter="blur(60px)"/>
+        </svg>
+      </div>
+
+      <!-- Layer 2: Jagged Snow Spires (Mid-Far) -->
+      <div class="p-layer layer-mid-bg" data-speed="0.38" aria-hidden="true">
+        <svg class="snow-spires-svg" viewBox="0 0 1920 700" preserveAspectRatio="none">
+          <!-- Colossal peaks with snow caps -->
+          <polygon points="180,700 360,180 540,700" fill="#202A44"/>
+          <polygon points="360,180 320,280 360,250 400,280" fill="#E2E8F0" opacity="0.85"/>
+          
+          <polygon points="620,700 880,120 1140,700" fill="#182035"/>
+          <polygon points="880,120 830,220 880,190 930,220" fill="#E2E8F0" opacity="0.95"/>
+          
+          <polygon points="1200,700 1420,210 1640,700" fill="#202A44"/>
+          <polygon points="1420,210 1380,300 1420,270 1460,300" fill="#E2E8F0" opacity="0.85"/>
+        </svg>
+      </div>
+
+      <!-- Layer 3: Suspended Rope Bridge & Mountain Crag (Mid-Near) -->
+      <div class="p-layer layer-mid-fg" data-speed="0.62" aria-hidden="true">
+        <svg class="mountain-crags-svg" viewBox="0 0 1920 700" preserveAspectRatio="none">
+          <!-- Left cliff crag -->
+          <path d="M0,200 L240,310 L180,480 L320,580 L220,700 L0,700 Z" fill="#131A2B"/>
+          <!-- Right cliff crag -->
+          <path d="M1920,260 L1680,350 L1760,520 L1600,610 L1700,700 L1920,700 Z" fill="#131A2B"/>
+          <!-- Ancient suspension bridge connecting the cliffs -->
+          <path d="M220,330 Q 960,460 1700,370" stroke="#E2A03F" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <path d="M220,360 Q 960,490 1700,400" stroke="#C48228" stroke-width="4" fill="none"/>
+          <!-- Bridge vertical suspension cables -->
+          <line x1="450" y1="365" x2="450" y2="395" stroke="#A86F22" stroke-width="2.5"/>
+          <line x1="700" y1="410" x2="700" y2="440" stroke="#A86F22" stroke-width="2.5"/>
+          <line x1="960" y1="428" x2="960" y2="458" stroke="#A86F22" stroke-width="2.5"/>
+          <line x1="1220" y1="412" x2="1220" y2="442" stroke="#A86F22" stroke-width="2.5"/>
+          <line x1="1470" y1="375" x2="1470" y2="405" stroke="#A86F22" stroke-width="2.5"/>
+        </svg>
+      </div>
+
+      <!-- Layer 4: Floating Levitating Monoliths (Foreground) -->
+      <div class="p-layer layer-fg" data-speed="0.95" aria-hidden="true">
+        <!-- Floating Crystalline Aerolith (Left) -->
+        <div class="aerolith aerolith-left" style="left: 8%; top: 45%;">
+          <svg viewBox="0 0 160 220" width="140" height="190">
+            <polygon points="80,10 145,70 120,180 75,210 25,160 15,65" fill="#1E293B" stroke="#38BDF8" stroke-width="2"/>
+            <polygon points="80,10 145,70 95,110 35,90" fill="#334155" opacity="0.8"/>
+            <polygon points="95,110 145,70 120,180 75,210" fill="#0F172A"/>
+            <!-- Glowing Rune Line -->
+            <path d="M75,30 L95,85 L70,140 L85,190" stroke="#00F2FE" stroke-width="3" fill="none" filter="drop-shadow(0 0 6px #00F2FE)"/>
+          </svg>
+        </div>
+        <!-- Floating Crystalline Aerolith (Right) -->
+        <div class="aerolith aerolith-right" style="right: 10%; top: 30%;">
+          <svg viewBox="0 0 130 180" width="110" height="150">
+            <polygon points="65,10 115,55 95,145 60,170 20,130 10,50" fill="#1E293B" stroke="#A78BFA" stroke-width="2"/>
+            <polygon points="65,10 115,55 80,95 30,75" fill="#334155" opacity="0.8"/>
+            <path d="M60,25 L75,70 L55,120" stroke="#C084FC" stroke-width="3" fill="none" filter="drop-shadow(0 0 6px #C084FC)"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Layer 5: Soaring Golden Eagle -->
+      <div class="p-layer layer-floating" data-speed="1.35" aria-hidden="true">
+        <div class="soaring-eagle" id="soaring-eagle">
+          <svg viewBox="0 0 120 70" width="120" height="70">
+            <path d="M60,40 C 45,25 20,10 0,22 C 25,35 48,46 58,54 C 62,54 85,46 120,22 C 100,10 75,25 60,40 Z" fill="#0D131F"/>
+            <polygon points="56,48 64,48 60,65" fill="#F59E0B"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Ridge Story Card -->
+      <div class="story-card card-reveal ridge-content">
+        <div class="badge-tag">
+          <span class="badge-icon">▲</span>
+          <span>ALTITUDE: 3,200 METERS // THE ALPINE CRAGS</span>
+        </div>
+        <h2 class="card-title">
+          Thin air.<br>
+          <span class="gradient-text-sky">Unapologetic ambitions.</span>
+        </h2>
+        <p class="card-copy">
+          Where the pine trees bow out and eagles make high-stakes life choices. Take a deep lungful now; past this crag, atmospheric oxygen officially becomes a luxury subscription model. Notice the floating monoliths—gravity has already started clocking out for lunch.
+        </p>
+        <div class="ridge-stats-pills">
+          <div class="stat-pill"><span class="pill-label">Barometric Press:</span> <strong>68.4 kPa</strong></div>
+          <div class="stat-pill"><span class="pill-label">Ambient Temp:</span> <strong>-4°C</strong></div>
+          <div class="stat-pill"><span class="pill-label">Eagle Proximity:</span> <strong>Optimal</strong></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- SECTION 3: THE SEA OF CLOUDS & THE AEROSTAT (9,500m) -->
+    <!-- ================================================================= -->
+    <section id="clouds" class="parallax-section section-clouds" aria-label="The Sea of Clouds at Altitude 9,500 Meters">
+      
+      <!-- Layer 1: Sunset Cloudscape Sky -->
+      <div class="p-layer layer-bg" data-speed="0.18" aria-hidden="true">
+        <div class="clouds-sunset-gradient"></div>
+        <div class="golden-hour-sun"></div>
+      </div>
+
+      <!-- Layer 2: Deep Volumetric Cumulus Clouds (Slow) -->
+      <div class="p-layer layer-mid-bg" data-speed="0.32" aria-hidden="true">
+        <svg class="deep-cumulus-svg" viewBox="0 0 1920 600" preserveAspectRatio="none">
+          <path d="M -100,500 
+            Q 150,320 400,420 
+            Q 650,280 950,380 
+            Q 1250,250 1550,360 
+            Q 1850,300 2050,450 
+            L 2050,600 L -100,600 Z" fill="url(#cumulus-grad-1)"/>
+          <defs>
+            <linearGradient id="cumulus-grad-1" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#FFB37E" stop-opacity="0.8"/>
+              <stop offset="50%" stop-color="#E17055" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="#2D132C" stop-opacity="0.9"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <!-- Layer 3: The Grand Cloud Skyship / Aerostat (Hero Object) -->
+      <div class="p-layer layer-mid-fg" data-speed="0.58" aria-hidden="true">
+        <div class="aerostat-ship" id="aerostat-ship">
+          <svg viewBox="0 0 420 300" width="380" height="270">
+            <!-- Balloon Envelope -->
+            <ellipse cx="210" cy="110" rx="150" ry="90" fill="url(#balloon-grad)" stroke="#FDE047" stroke-width="2"/>
+            <!-- Envelope decorative ribs -->
+            <path d="M60,110 Q 210,50 360,110" stroke="#FEF08A" stroke-width="1.5" fill="none" opacity="0.6"/>
+            <path d="M60,110 Q 210,170 360,110" stroke="#FEF08A" stroke-width="1.5" fill="none" opacity="0.6"/>
+            <ellipse cx="210" cy="110" rx="100" ry="90" fill="none" stroke="#FBBF24" stroke-width="1.5" opacity="0.5"/>
+            <!-- Burner ring & flame glow -->
+            <circle cx="210" cy="205" r="16" fill="#F97316" filter="drop-shadow(0 0 12px #F97316)"/>
+            <polygon points="204,205 210,185 216,205" fill="#FEF08A"/>
+            <!-- Suspension Rigging Cables -->
+            <line x1="120" y1="160" x2="185" y2="225" stroke="#D97706" stroke-width="2"/>
+            <line x1="300" y1="160" x2="235" y2="225" stroke="#D97706" stroke-width="2"/>
+            <line x1="170" y1="185" x2="195" y2="225" stroke="#D97706" stroke-width="1.5"/>
+            <line x1="250" y1="185" x2="225" y2="225" stroke="#D97706" stroke-width="1.5"/>
+            <!-- Brass Gondola / Basket -->
+            <rect x="175" y="225" width="70" height="35" rx="8" fill="#78350F" stroke="#F59E0B" stroke-width="2"/>
+            <!-- Porthole windows -->
+            <circle cx="190" cy="242" r="5" fill="#38BDF8" stroke="#FDE047" stroke-width="1.5"/>
+            <circle cx="210" cy="242" r="5" fill="#38BDF8" stroke="#FDE047" stroke-width="1.5"/>
+            <circle cx="230" cy="242" r="5" fill="#38BDF8" stroke="#FDE047" stroke-width="1.5"/>
+            <!-- Brass Propulsion Propeller (Animates via CSS) -->
+            <g class="aerostat-propeller" style="transform-origin: 165px 242px;">
+              <rect x="160" y="238" width="10" height="8" rx="2" fill="#F59E0B"/>
+              <ellipse cx="160" cy="242" rx="4" ry="18" fill="#E2E8F0" opacity="0.8"/>
+            </g>
+            <!-- Navigation Pennant Flag -->
+            <polygon points="360,110 395,100 360,90" fill="#EF4444"/>
+            <defs>
+              <linearGradient id="balloon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#C026D3"/>
+                <stop offset="45%" stop-color="#DB2777"/>
+                <stop offset="85%" stop-color="#F59E0B"/>
+                <stop offset="100%" stop-color="#FEF08A"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Layer 4: Rushing Wispy Foreground Clouds (Fastest) -->
+      <div class="p-layer layer-fg" data-speed="1.15" aria-hidden="true">
+        <svg class="fore-cloud-svg" viewBox="0 0 1920 450" preserveAspectRatio="none">
+          <path d="M -50,220 
+            C 180,120 420,290 680,180 
+            C 940,70 1220,260 1480,150 
+            C 1720,50 1950,220 2050,140 
+            L 2050,450 L -50,450 Z" fill="url(#fore-cloud-grad)" opacity="0.85"/>
+          <defs>
+            <linearGradient id="fore-cloud-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.85"/>
+              <stop offset="40%" stop-color="#FDE047" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#3B0764" stop-opacity="0.95"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <!-- Layer 5: Floating Paper Aviator & Cloud Tufts -->
+      <div class="p-layer layer-floating" data-speed="1.45" aria-hidden="true">
+        <div class="paper-airplane" id="paper-plane">
+          <svg viewBox="0 0 80 50" width="70" height="45">
+            <polygon points="5,25 75,5 45,45" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
+            <polygon points="5,25 75,5 40,25" fill="#E2E8F0"/>
+            <line x1="5" y1="25" x2="75" y2="5" stroke="#94A3B8" stroke-width="1.5"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Cloud Story Card -->
+      <div class="story-card card-reveal clouds-content">
+        <div class="badge-tag">
+          <span class="badge-icon">☁</span>
+          <span>ALTITUDE: 9,500 METERS // THE CLOUD KINGDOM</span>
+        </div>
+        <h2 class="card-title">
+          Every cloud has a silver lining.<br>
+          <span class="gradient-text-gold">We prefer the golden hour.</span>
+        </h2>
+        <p class="card-copy">
+          Sailing silently through mammoth towers of cumulus gold. At this cruise altitude, commercial airliners are waving from down below. If you drop your sunglasses right now, they officially belong to international aviation authorities.
+        </p>
+        <div class="cloud-interactive-hint">
+          <span class="hint-sparkle">✦</span>
+          <span>Move your mouse to tilt the aerostat’s navigational rudder in 3D space.</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- SECTION 4: THE AURORA STRATOSPHERE (48,000m - PINNED HORIZONTAL) -->
+    <!-- ================================================================= -->
+    <section id="stratosphere" class="parallax-section section-stratosphere" aria-label="The Aurora Stratosphere at Altitude 48,000 Meters">
+      
+      <!-- Pinned Horizontal Scroll Wrapper -->
+      <div class="horizontal-pinned-wrapper" id="pinned-wrapper">
+        
+        <!-- Background Stratospheric Canvas & Curvature -->
+        <div class="strato-deep-bg" aria-hidden="true">
+          <!-- Curving Earth Horizon -->
+          <svg class="earth-curvature-svg" viewBox="0 0 1920 600" preserveAspectRatio="none">
+            <ellipse cx="960" cy="1100" rx="1400" ry="700" fill="#040D1A"/>
+            <!-- Neon Cyan Atmospheric Limb Glow -->
+            <path d="M -200,680 Q 960,380 2120,680" stroke="#00F2FE" stroke-width="8" fill="none" opacity="0.9" filter="drop-shadow(0 0 20px #00F2FE)"/>
+            <path d="M -200,690 Q 960,400 2120,690" stroke="#38BDF8" stroke-width="20" fill="none" opacity="0.4" filter="blur(8px)"/>
+            <!-- Twinkling city lights clusters on Earth's night side -->
+            <g fill="#FDE047" opacity="0.75" class="city-lights">
+              <circle cx="650" cy="540" r="2"/>
+              <circle cx="670" cy="535" r="1.5"/>
+              <circle cx="710" cy="550" r="3"/>
+              <circle cx="920" cy="510" r="2.5"/>
+              <circle cx="950" cy="525" r="2"/>
+              <circle cx="1120" cy="530" r="3"/>
+              <circle cx="1160" cy="545" r="2"/>
+              <circle cx="1280" cy="560" r="2.5"/>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Shimmering Aurora Borealis Wave Ribbons -->
+        <div class="aurora-curtain-container" aria-hidden="true">
+          <div class="aurora-wave wave-1"></div>
+          <div class="aurora-wave wave-2"></div>
+          <div class="aurora-wave wave-3"></div>
+        </div>
+
+        <!-- Horizontal Sliding Track (Moves via GSAP ScrollTrigger) -->
+        <div class="horizontal-track" id="horizontal-track">
+          
+          <!-- PANEL 1: The Magnetosphere Veil -->
+          <article class="horizontal-panel panel-1">
+            <div class="panel-card glass-panel">
+              <div class="badge-tag">
+                <span class="badge-icon">✦</span>
+                <span>WAYPOINT 01 // MAGNETOSPHERE</span>
+              </div>
+              <h3 class="panel-heading">The Neon Veil of the Ionosphere</h3>
+              <p class="panel-copy">
+                Where energetic solar electrons slam into atmospheric oxygen at 400 km/s, transforming cosmic turbulence into ethereal ribbons of emerald and magenta light.
+              </p>
+              <div class="telemetry-badge">
+                <span>SOLAR WIND: 420 km/s</span>
+                <span>AURORAL FLUX: ACTIVE</span>
+              </div>
+            </div>
+            
+            <!-- Midground Floating Element: Weather Sounding Probe -->
+            <div class="strato-object probe-object" data-h-speed="0.3">
+              <svg viewBox="0 0 160 160" width="130" height="130">
+                <circle cx="80" cy="60" r="45" fill="none" stroke="#E2E8F0" stroke-width="2" stroke-dasharray="4 2"/>
+                <circle cx="80" cy="60" r="10" fill="#38BDF8" filter="drop-shadow(0 0 8px #38BDF8)"/>
+                <line x1="80" y1="70" x2="80" y2="130" stroke="#94A3B8" stroke-width="2"/>
+                <line x1="60" y1="130" x2="100" y2="130" stroke="#94A3B8" stroke-width="2"/>
+                <circle cx="80" cy="140" r="5" fill="#EF4444" class="blinking-beacon"/>
+              </svg>
+            </div>
+          </article>
+
+          <!-- PANEL 2: Orbital Relay Astraea -->
+          <article class="horizontal-panel panel-2">
+            <div class="panel-card glass-panel">
+              <div class="badge-tag">
+                <span class="badge-icon">🛰</span>
+                <span>WAYPOINT 02 // SATELLITE ARRAY</span>
+              </div>
+              <h3 class="panel-heading">Orbital Array Sol-9</h3>
+              <p class="panel-copy">
+                Gliding noiselessly across the thermosphere. At this altitude, national borders evaporate into sheer topography, and humanity’s transmissions echo through the void.
+              </p>
+              <div class="telemetry-badge">
+                <span>ORBITAL INCLINATION: 51.6°</span>
+                <span>LATENCY: 1.2 ms</span>
+              </div>
+            </div>
+
+            <!-- Hero Midground Satellite Model -->
+            <div class="strato-object satellite-object" data-h-speed="0.75">
+              <svg viewBox="0 0 320 180" width="280" height="160">
+                <!-- Main Chassis -->
+                <rect x="135" y="65" width="50" height="50" rx="6" fill="#1E293B" stroke="#E2E8F0" stroke-width="2"/>
+                <!-- Gold Foil Insulation -->
+                <rect x="142" y="72" width="36" height="36" fill="#F59E0B" opacity="0.85"/>
+                <!-- Left Solar Array Wing -->
+                <rect x="20" y="70" width="105" height="40" rx="3" fill="#0284C7" stroke="#38BDF8" stroke-width="2"/>
+                <line x1="55" y1="70" x2="55" y2="110" stroke="#0369A1" stroke-width="1.5"/>
+                <line x1="90" y1="70" x2="90" y2="110" stroke="#0369A1" stroke-width="1.5"/>
+                <line x1="20" y1="90" x2="125" y2="90" stroke="#0369A1" stroke-width="1.5"/>
+                <!-- Right Solar Array Wing -->
+                <rect x="195" y="70" width="105" height="40" rx="3" fill="#0284C7" stroke="#38BDF8" stroke-width="2"/>
+                <line x1="230" y1="70" x2="230" y2="110" stroke="#0369A1" stroke-width="1.5"/>
+                <line x1="265" y1="70" x2="265" y2="110" stroke="#0369A1" stroke-width="1.5"/>
+                <line x1="195" y1="90" x2="300" y2="90" stroke="#0369A1" stroke-width="1.5"/>
+                <!-- Communications Dish -->
+                <path d="M 160,65 Q 160,40 180,30" stroke="#E2E8F0" stroke-width="2" fill="none"/>
+                <ellipse cx="185" cy="28" rx="16" ry="7" fill="#64748B" stroke="#F8FAFC" stroke-width="1.5" transform="rotate(-25 185 28)"/>
+                <!-- Blinking Status LEDs -->
+                <circle cx="145" cy="75" r="2.5" fill="#10B981" class="blinking-led"/>
+                <circle cx="175" cy="75" r="2.5" fill="#3B82F6"/>
+              </svg>
+            </div>
+          </article>
+
+          <!-- PANEL 3: The Perseid Meteor Cascade -->
+          <article class="horizontal-panel panel-3">
+            <div class="panel-card glass-panel">
+              <div class="badge-tag">
+                <span class="badge-icon">☄</span>
+                <span>WAYPOINT 03 // EXOSPHERE GATEWAY</span>
+              </div>
+              <h3 class="panel-heading">The Cosmic Boundary</h3>
+              <p class="panel-copy">
+                You have officially left 99.999% of terrestrial matter beneath you. Ahead lies the silent cosmic abyss, dusted with ancient starlight and solar radiance.
+              </p>
+              <div class="telemetry-badge">
+                <span>ATMOSPHERE: NEGLIGIBLE</span>
+                <span>GRAVITY: 0.12 G</span>
+              </div>
+            </div>
+
+            <!-- Meteor streaks in panel 3 -->
+            <div class="meteor-streak-group">
+              <div class="meteor-streak m-1"></div>
+              <div class="meteor-streak m-2"></div>
+              <div class="meteor-streak m-3"></div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Horizontal Scroll Hint Indicator -->
+        <div class="horizontal-scroll-hint" aria-hidden="true">
+          <span class="hint-pulse"></span>
+          <span>HORIZONTAL ORBITAL SWEEP // SCROLL CONTINUOUSLY</span>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- SECTION 5: THE CELESTIAL TERMINUS & MOONBASE (384,400m - CTA) -->
+    <!-- ================================================================= -->
+    <section id="cosmos" class="parallax-section section-cosmos" aria-label="The Celestial Expanse and Final Destination">
+      
+      <!-- Layer 1: Deep Cosmic Space & Stellar Nebulae -->
+      <div class="p-layer layer-bg" data-speed="0.12" aria-hidden="true">
+        <div class="deep-space-nebula"></div>
+        <!-- High density glittering vector stars -->
+        <svg class="starfield-svg" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+          <defs>
+            <filter id="star-glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <!-- Prominent Glowing Stars -->
+          <g fill="#FFFFFF" filter="url(#star-glow)">
+            <circle cx="240" cy="180" r="3" class="twinkle-slow"/>
+            <circle cx="480" cy="320" r="2.5" class="twinkle-fast"/>
+            <circle cx="780" cy="140" r="3.5" class="twinkle-mid"/>
+            <circle cx="1120" cy="220" r="3" class="twinkle-slow"/>
+            <circle cx="1380" cy="160" r="2" class="twinkle-fast"/>
+            <circle cx="1650" cy="280" r="4" class="twinkle-slow"/>
+            <circle cx="1820" cy="120" r="2.5" class="twinkle-mid"/>
+            <circle cx="340" cy="620" r="3" class="twinkle-fast"/>
+            <circle cx="890" cy="680" r="3.5" class="twinkle-slow"/>
+            <circle cx="1520" cy="740" r="2.5" class="twinkle-mid"/>
+          </g>
+          <!-- Distant Spiral Galaxy -->
+          <ellipse cx="1400" cy="240" rx="60" ry="15" fill="#8B5CF6" opacity="0.3" transform="rotate(-30 1400 240)" filter="blur(6px)"/>
+          <ellipse cx="1400" cy="240" rx="30" ry="8" fill="#EC4899" opacity="0.5" transform="rotate(-30 1400 240)" filter="blur(3px)"/>
+        </svg>
+      </div>
+
+      <!-- Layer 2: The Luminescent Moon (Mid-Ground) -->
+      <div class="p-layer layer-mid-bg" data-speed="0.35" aria-hidden="true">
+        <div class="lunar-orb-wrapper">
+          <div class="moon-atmospheric-halo"></div>
+          <svg class="moon-svg" viewBox="0 0 300 300" width="300" height="300">
+            <!-- Moon sphere -->
+            <circle cx="150" cy="150" r="140" fill="url(#lunar-surface-grad)" stroke="#E2E8F0" stroke-width="1"/>
+            <!-- Maria & Craters (Stylized Vector Shading) -->
+            <!-- Oceanus Procellarum / Mare Imbrium -->
+            <ellipse cx="110" cy="115" rx="45" ry="35" fill="#94A3B8" opacity="0.45"/>
+            <ellipse cx="180" cy="100" rx="35" ry="30" fill="#94A3B8" opacity="0.4"/>
+            <ellipse cx="150" cy="175" rx="50" ry="40" fill="#94A3B8" opacity="0.35"/>
+            <!-- Crater Tycho with Ray System -->
+            <circle cx="150" cy="235" r="9" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+            <path d="M 150,226 L 140,195 M 150,226 L 165,190 M 150,244 L 140,270 M 150,244 L 165,268 M 141,235 L 115,230 M 159,235 L 190,230" stroke="#F1F5F9" stroke-width="1" opacity="0.7"/>
+            <!-- Crater Copernicus -->
+            <circle cx="110" cy="150" r="7" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1"/>
+            <!-- Lunar Research Orbital Halo -->
+            <ellipse cx="150" cy="150" rx="148" ry="45" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="8 6" opacity="0.6" transform="rotate(-20 150 150)"/>
+            <defs>
+              <radialGradient id="lunar-surface-grad" cx="40%" cy="40%" r="65%">
+                <stop offset="0%" stop-color="#FFFFFF"/>
+                <stop offset="50%" stop-color="#E2E8F0"/>
+                <stop offset="85%" stop-color="#CBD5E1"/>
+                <stop offset="100%" stop-color="#64748B"/>
+              </radialGradient>
+            </defs>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Layer 3: Floating Astronaut / Spacewalk Explorer (Mid-Foreground) -->
+      <div class="p-layer layer-mid-fg" data-speed="0.75" aria-hidden="true">
+        <div class="spacewalk-astronaut" id="spacewalker">
+          <svg viewBox="0 0 180 260" width="160" height="230">
+            <!-- Tether cord snaking into distance -->
+            <path d="M 90,130 C 50,180 30,220 0,260" stroke="#38BDF8" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="6 3"/>
+            <!-- Life Support Backpack -->
+            <rect x="55" y="60" width="70" height="85" rx="12" fill="#334155" stroke="#94A3B8" stroke-width="2"/>
+            <circle cx="68" cy="75" r="4" fill="#10B981"/>
+            <circle cx="112" cy="75" r="4" fill="#38BDF8"/>
+            <!-- Torso -->
+            <rect x="62" y="70" width="56" height="75" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+            <path d="M 68,95 L 112,95" stroke="#94A3B8" stroke-width="2"/>
+            <circle cx="90" cy="82" r="5" fill="#EF4444"/>
+            <!-- Helmet & Gold Reflective Visor -->
+            <circle cx="90" cy="45" r="28" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+            <ellipse cx="90" cy="46" rx="20" ry="15" fill="#F59E0B" stroke="#D97706" stroke-width="1.5"/>
+            <!-- Visor reflections (Earth miniature reflection) -->
+            <path d="M 76,42 Q 90,36 102,40" stroke="#FEF08A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <circle cx="86" cy="48" r="3" fill="#38BDF8"/>
+            <!-- Left Arm & Hand (Waving) -->
+            <path d="M 62,75 L 35,60 L 25,35" stroke="#F8FAFC" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <circle cx="25" cy="35" r="8" fill="#64748B"/>
+            <!-- Right Arm -->
+            <path d="M 118,75 L 140,95 L 135,120" stroke="#F8FAFC" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <circle cx="135" cy="120" r="8" fill="#64748B"/>
+            <!-- Left Leg -->
+            <path d="M 75,145 L 68,190 L 55,215" stroke="#F8FAFC" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <rect x="42" y="210" width="22" height="12" rx="4" fill="#64748B"/>
+            <!-- Right Leg -->
+            <path d="M 105,145 L 115,190 L 130,215" stroke="#F8FAFC" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <rect x="122" y="210" width="22" height="12" rx="4" fill="#64748B"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Layer 4: Foreground Cosmic Dust & Shooting Stars (Fastest) -->
+      <div class="p-layer layer-fg" data-speed="1.2" aria-hidden="true">
+        <div class="stardust stardust-1" style="left: 15%; top: 35%;"></div>
+        <div class="stardust stardust-2" style="left: 85%; top: 20%;"></div>
+        <div class="stardust stardust-3" style="left: 70%; top: 75%;"></div>
+        <div class="stardust stardust-4" style="left: 25%; top: 80%;"></div>
+      </div>
+
+      <!-- Final Story & Call-to-Action Terminal Card -->
+      <div class="story-card card-reveal cosmos-content">
+        <div class="badge-tag">
+          <span class="badge-icon">◉</span>
+          <span>ALTITUDE: 384,400 KM // SEA OF TRANQUILITY</span>
+        </div>
+        <h2 class="card-title">
+          Mission Accomplished.<br>
+          <span class="gradient-text-cosmos">You conquered gravity.</span>
+        </h2>
+        <p class="card-copy">
+          From a whisper of dawn in the valley pines, up through craggy peaks, cloud kingdoms, and shimmering auroral ribbons—you traversed 384,400 kilometers in a sequence of fluid, 60fps parallax motions. The cosmos is now officially your backyard.
+        </p>
+
+        <!-- Interactive Mission Terminal & Action Controls -->
+        <div class="mission-terminal">
+          <div class="terminal-header">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-title">AETHERIA TRANSMISSION CONSOLE</span>
+          </div>
+          <div class="terminal-body">
+            <p class="terminal-output" id="terminal-output">
+              > STATUS: ALL 5 ALTITUDE TIERS TRAVERSED (0m → 384,400km)<br>
+              > PARALLAX ENGINE: TRANSFORM-3D ACCELERATED (60 FPS)<br>
+              > ASSET HEALTH: 100% INLINE VECTOR SVGS (0 EXTERNAL BROKEN LINKS)<br>
+              > READY FOR RETURN FLIGHT OR COSMIC DISPATCH.
+            </p>
+            <div class="terminal-actions">
+              <button class="btn btn-primary" id="transmit-btn">
+                <span>Transmit Cosmic Signal</span>
+                <span class="btn-icon">⚡</span>
+              </button>
+              <button class="btn btn-secondary" id="relaunch-btn">
+                <span>Free-Fall Back to Valley (Reset)</span>
+                <span class="btn-icon">↺</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Technical Accolades & Accessibility Note -->
+        <div class="specs-grid">
+          <div class="spec-card">
+            <span class="spec-val">5 Tiers</span>
+            <span class="spec-lbl">Distinct Vertical Chapters</span>
+          </div>
+          <div class="spec-card">
+            <span class="spec-val">4+ Layers</span>
+            <span class="spec-lbl">Multi-Speed Scrub Parallax</span>
+          </div>
+          <div class="spec-card">
+            <span class="spec-val">Pinned</span>
+            <span class="spec-lbl">3-Phase Orbital Sweep</span>
+          </div>
+          <div class="spec-card">
+            <span class="spec-val">60 FPS</span>
+            <span class="spec-lbl">will-change & translate3d</span>
+          </div>
+        </div>
+
+        <!-- Final Footer -->
+        <footer class="site-footer" role="contentinfo">
+          <p>© 2026 AETHERIA Odyssey. Built with semantic HTML5, modern CSS3, and GSAP ScrollTrigger. Accessible, responsive, and crafted with zero asset dependencies.</p>
+        </footer>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Interactive Dispatch Modal / Toast -->
+  <div id="dispatch-toast" class="dispatch-toast" role="alert" aria-live="polite" hidden>
+    <div class="toast-content">
+      <span class="toast-icon">✨</span>
+      <div>
+        <strong>Cosmic Dispatch Sent!</strong>
+        <p>Telemetry packet broadcast across orbital array Sol-9. Safe travels, stargazer.</p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
